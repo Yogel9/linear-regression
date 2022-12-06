@@ -28,27 +28,27 @@ def sgd(X, y, X_test, y_test,  w, alpha=1e-4, max_it=10e6):
         w = gradient_step_stah(X, y, w, alpha, ind)
         # отображаем каждый %
         if iter_num % (int(max_it/100)) == 0:
-            print(f'Выполнено: {int(iter_num/max_it * 100)}%')
+            # print(f'Выполнено: {int(iter_num/max_it * 100)}%')
             # mse train
             error = mse(y, np.dot(X, w))
             errors.append(error)
-            print(f'Mse train: {error}')
+            # print(f'Mse train: {error}')
             # mse test
             error = mse(y_test, np.dot(X_test, w))
             errors_test.append(error)
-            print(f'Mse test: {error}')
+            # print(f'Mse test: {error}')
             # r2 test
             R = r2_score(y_test, np.dot(X_test, w))
             r2.append(R)
-            print(f'R2:{R}')
+            # print(f'R2:{R}')
         iter_num += 1
 
-    pylab.plot(errors, label="Mse train")
-    pylab.plot(errors_test, label="Mse test")
-    pylab.plot(r2, label="R2")
-    # pylab.title("")
-    pylab.legend(fontsize=14)
-    pylab.show()
+    # pylab.plot(errors, label="Mse train")
+    # pylab.plot(errors_test, label="Mse test")
+    # pylab.plot(r2, label="R2")
+    # # pylab.title("")
+    # pylab.legend(fontsize=14)
+    # pylab.show()
 
     return w, errors, errors_test, r2
 
@@ -107,6 +107,6 @@ def multi_iteration_sgd(df: pd.DataFrame, projected_value: str):
         X_test = df_test.drop(columns=[projected_value]).values
         y_test = df_test[projected_value].values
 
-        w, mse_train, mse_test, r2 = sgd(X_train, y_train, np.ones(X_train.shape[1]))
+        w, mse_train, mse_test, r2 = sgd(X_train, y_train, X_test, y_test, np.ones(X_train.shape[1]))
         print(f'Итерация {i + 1} | R^2 = ', r2_score(y_test, np.dot(X_test, w)))
         r2_shuffles.append(r2_score(y_test, np.dot(X_test, w)))

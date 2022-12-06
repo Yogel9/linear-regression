@@ -128,7 +128,7 @@ if __name__ == "__main__":
     data_dict['test'][0] = scaler.transform(data_dict['test'][0])
 
     # модели
-    stochastic_gradient_descent(data_part, 'Рейтинг счастья (0-10)')
+    # stochastic_gradient_descent(data_part, 'Рейтинг счастья (0-10)')
     multi_iteration_sgd(data_part, 'Рейтинг счастья (0-10)')
 
 

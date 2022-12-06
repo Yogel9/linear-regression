@@ -68,7 +68,7 @@ def GridSearchCV_SGD(data_dict: dict)->list:
     print(f"Подобранные параметры под SGDRegressor: {gs.best_params_}, {gs.best_score_}")
 
     # по лучшим параметрам строим модель
-    reg = SGDRegressor(alpha=gs.best_params_[0]["alpha"], penalty=gs.best_params_[0]["penalty"])
+    reg = SGDRegressor(alpha=gs.best_params_["alpha"], penalty=gs.best_params_["penalty"])
     reg.fit(data_dict['train'][0], data_dict['train'][1])
 
     y_train_prediction = reg.predict(data_dict['train'][0])
