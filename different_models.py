@@ -54,6 +54,31 @@ def Gradient_Linear_Regression(data_dict):
     return gradient_model.coef_
 
 
+def GridSearchCV_SGD(data_dict: dict)->list:
+    from sklearn.model_selection import GridSearchCV
+
+    grid = {'penalty': ['l1', 'l2'],
+            'alpha': [1e-4, 1e-5, 1e-6, 1e-7]}
+
+    reg = SGDRegressor()
+    gs = GridSearchCV(reg, grid, cv=5)
+
+    # Обучаем его
+    gs.fit(data_dict['train'][0], data_dict['train'][1])
+    print(f"Подобранные параметры под SGDRegressor: {gs.best_params_}, {gs.best_score_}")
+
+    # по лучшим параметрам строим модель
+    reg = SGDRegressor(alpha=gs.best_params_[0]["alpha"], penalty=gs.best_params_[0]["penalty"])
+    reg.fit(data_dict['train'][0], data_dict['train'][1])
+
+    y_train_prediction = reg.predict(data_dict['train'][0])
+    y_test_prediction = reg.predict(data_dict['test'][0])
+
+    print("SGDLinearRegression with GridSearchCV")
+    print_MSE_MAE(data_dict['train'][1], data_dict['test'][1], y_train_prediction, y_test_prediction,
+                  "Gradient_Linear_Regression")
+    return reg.coef_
+
 def Polynomial_Linear_Regression(data_dict):
     """линейная регресси с полиномиальные показателями"""
     poly = PolynomialFeatures(2, include_bias=False)  # степень, исключаем x[0]**2
